@@ -363,7 +363,7 @@ void measureExecutionTime(const function<void(const vector<vector<int>>&, const 
 
 // Función principal
 int main() {
-    int n = 32;  // Tamaño de la matriz
+    int n = 256;  // Tamaño de la matriz
     int blockSize = n/4;  // Tamaño de bloque para los algoritmos de bloques
     vector<vector<int>> A(n, vector<int>(n));
     vector<vector<int>> B(n, vector<int>(n));
@@ -404,7 +404,8 @@ int main() {
     fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
 
     measureExecutionTime(enhancedParallelBlockLambda, A, B, C, n, "IV.5 Enhanced Parallel Block");
-
+    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
+    
     measureExecutionTime(NaivLoopUnrollingTwo, A, B, C, n, "NaivLoopUnrollingTwo");
     fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
 
