@@ -11,33 +11,33 @@ using namespace std;
 using namespace chrono;
 
 // Función para llenar la matriz con números aleatorios de 6 dígitos
-void fillMatrix(vector<vector<int>>& matrix, int n) {
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> dis(100000, 999999);
+//void fillMatrix(vector<vector<int>>& matrix, int n) {
+//    random_device rd;
+//    mt19937 gen(rd());
+//    uniform_int_distribution<> dis(100000, 999999);
 
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < n; ++j)
-            matrix[i][j] = dis(gen);
-}
+//    for (int i = 0; i < n; ++i)
+//        for (int j = 0; j < n; ++j)
+//            matrix[i][j] = dis(gen);
+//}
 
-void saveMatrixToFile(const vector<vector<int>>& matrix, const string& filename) {
-    ofstream file(filename);
-    if (file.is_open()) {
-        int n = matrix.size();
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                file << matrix[i][j] << " ";
-            }
-            file << endl;  // Nueva línea después de cada fila
-        }
-        file.close();
-        cout << "Matriz guardada en " << filename << endl;
-    }
-    else {
-        cerr << "No se pudo abrir el archivo " << filename << endl;
-    }
-}
+//void saveMatrixToFile(const vector<vector<int>>& matrix, const string& filename) {
+ //   ofstream file(filename);
+ //   if (file.is_open()) {
+  //      int n = matrix.size();
+  //     for (int i = 0; i < n; ++i) {
+    //        for (int j = 0; j < n; ++j) {
+    //            file << matrix[i][j] << " ";
+     //       }
+     //       file << endl;  // Nueva línea después de cada fila
+     //   }
+     //   file.close();
+     //   cout << "Matriz guardada en " << filename << endl;
+   // }
+   // else {
+    //    cerr << "No se pudo abrir el archivo " << filename << endl;
+    //}
+//}
 
 void logExecutionTime(const string& algorithmName, int matrixSize, long long duration) {
     ofstream file("tiempos_ejecucion.txt", ios::app);  // ios::app permite añadir datos al final del archivo
@@ -51,22 +51,23 @@ void logExecutionTime(const string& algorithmName, int matrixSize, long long dur
     }
 }
 
-bool loadMatrixFromFile(const string& filename, vector<vector<int>>& matrix, int n) {
+bool loadMatrixFromFile(vector<vector<int>>& matrix, const string& filename) {
     ifstream file(filename);
-    if (!file.is_open()) {
+    if (file.is_open()) {
+        int n = matrix.size();
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                file >> matrix[i][j];
+            }
+        }
+        file.close();
+        cout << "Matriz cargada desde " << filename << endl;
+        return true;
+    }
+    else {
         cerr << "No se pudo abrir el archivo " << filename << endl;
         return false;
     }
-
-    matrix.resize(n, vector<int>(n));
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            file >> matrix[i][j];
-        }
-    }
-
-    file.close();
-    return true;
 }
 
 // Algoritmo 1: Strassen-Winograd (Versión simplificada)
@@ -360,10 +361,20 @@ void measureExecutionTime(const function<void(const vector<vector<int>>&, const 
 }
 
 
+// Función para imprimir una matriz
+void printMatrix(const vector<vector<int>>& matrix) {
+    for (const auto& row : matrix) {          // Recorre cada fila de la matriz
+        for (int element : row) {             // Recorre cada elemento de la fila
+            cout << element << " ";           // Imprime el elemento seguido de un espacio
+        }
+        cout << endl;                         // Salto de línea al final de cada fila
+    }
+}
+
 // Función principal
 int main() {
     int n = 256;  // Tamaño de la matriz
-    int blockSize = n/4;  // Tamaño de bloque para los algoritmos de bloques
+    int blockSize = n/2;  // Tamaño de bloque para los algoritmos de bloques
     vector<vector<int>> A(n, vector<int>(n));
     vector<vector<int>> B(n, vector<int>(n));
     vector<vector<int>> C(n, vector<int>(n, 0));
@@ -376,10 +387,15 @@ int main() {
     saveMatrixToFile(A, "matriz_A2.txt");
     saveMatrixToFile(B, "matriz_B2.txt");*/
 
-    if (!loadMatrixFromFile("matriz_A256.txt",A,n) || !loadMatrixFromFile("matriz_B256.txt",B,n)) {
+    // Construir los nombres de archivo basados en el tamaño de la matriz
+    string filenameA = "matriz_A" + to_string(n) + ".txt";
+    string filenameB = "matriz_B" + to_string(n) + ".txt";
+    
+    if (!loadMatrixFromFile(A, filenameA) || !loadMatrixFromFile(B, filenameB)) {
         cerr << "Error al cargar las matrices." << endl;
         return 1;
     }
+    
     // Ejecutar cada algoritmo y medir su tiempo de ejecución
     cout << "Ejecutando algoritmos de multiplicación de matrices para matrices de tamaño " << n << "x" << n << endl;
 
