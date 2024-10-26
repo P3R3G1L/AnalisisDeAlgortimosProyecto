@@ -1,60 +1,22 @@
-Tiempo de ejecución (Strassen-Winograd) con tamaño 2x2: 1400 ns
-Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 2x2: 1800 ns
-Tiempo de ejecución (Winograd Scaled) con tamaño 2x2: 3700 ns
-Tiempo de ejecución (IV.3 Sequential Block) con tamaño 2x2: 2100 ns
-Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 2x2: 2200 ns
-Tiempo de ejecución (Strassen-Winograd) con tamaño 4x4: 900 ns
-Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 4x4: 8000 ns
-Tiempo de ejecución (Winograd Scaled) con tamaño 4x4: 112600 ns
-Tiempo de ejecución (IV.3 Sequential Block) con tamaño 4x4: 14700 ns
-Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 4x4: 13500 ns
-Tiempo de ejecución (Strassen-Winograd) con tamaño 16x16: 500 ns
-Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 16x16: 377800 ns
-Tiempo de ejecución (Winograd Scaled) con tamaño 16x16: 388400 ns
-Tiempo de ejecución (IV.3 Sequential Block) con tamaño 16x16: 641500 ns
-Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 16x16: 526800 ns
-Tiempo de ejecución (Strassen-Winograd) con tamaño 32x32: 400 ns
-Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 32x32: 2486500 ns
-Tiempo de ejecución (Winograd Scaled) con tamaño 32x32: 2262000 ns
-Tiempo de ejecución (IV.3 Sequential Block) con tamaño 32x32: 2779800 ns
-Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 32x32: 1989100 ns
-Tiempo de ejecución (Strassen-Winograd) con tamaño 32x32: 100 ns
-Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 32x32: 495900 ns
-Tiempo de ejecución (Winograd Scaled) con tamaño 32x32: 1236000 ns
-Tiempo de ejecución (IV.3 Sequential Block) con tamaño 32x32: 984600 ns
-Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 32x32: 582500 ns
-Tiempo de ejecución (NaivLoopUnrollingTwo) con tamaño 32x32: 448200 ns
-Tiempo de ejecución (WinogradOriginal) con tamaño 32x32: 457700 ns
-Tiempo de ejecución (StrassenNaiv) con tamaño 32x32: 46850100 ns
-Tiempo de ejecución (III.3 Sequential Block) con tamaño 32x32: 931300 ns
-Tiempo de ejecución (III.5 Enhanced Parallel Block) con tamaño 32x32: 1041800 ns
+Tiempo de ejecución (Strassen-Winograd) con tamaño 256x256: 400 ns
+Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 256x256: 772500100 ns
+Tiempo de ejecución (Winograd Scaled) con tamaño 256x256: 563858400 ns
+Tiempo de ejecución (IV.3 Sequential Block) con tamaño 256x256: 867293600 ns
+Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 256x256: 816075500 ns
+Tiempo de ejecución (NaivLoopUnrollingTwo) con tamaño 256x256: 777634600 ns
+Tiempo de ejecución (WinogradOriginal) con tamaño 256x256: 556819300 ns
+Tiempo de ejecución (StrassenNaiv) con tamaño 256x256: 109922290800 ns
+Tiempo de ejecución (III.3 Sequential Block) con tamaño 256x256: 1238974100 ns
+Tiempo de ejecución (III.5 Enhanced Parallel Block) con tamaño 256x256: 567431400 ns
+--------------------------------------------------------------------------------------
+
 Tiempo de ejecución (Strassen-Winograd) con tamaño 256x256: 600 ns
-Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 256x256: 256580600 ns
-Tiempo de ejecución (Winograd Scaled) con tamaño 256x256: 270627900 ns
-Tiempo de ejecución (IV.3 Sequential Block) con tamaño 256x256: 350871300 ns
-Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 256x256: 328286200 ns
-Tiempo de ejecución (NaivLoopUnrollingTwo) con tamaño 256x256: 298600600 ns
-Tiempo de ejecución (WinogradOriginal) con tamaño 256x256: 226162700 ns
-Tiempo de ejecución (StrassenNaiv) con tamaño 256x256: 15187000400 ns
-Tiempo de ejecución (III.3 Sequential Block) con tamaño 256x256: 317962000 ns
-Tiempo de ejecución (III.5 Enhanced Parallel Block) con tamaño 256x256: 132702600 ns
-Tiempo de ejecución (Strassen-Winograd) con tamaño 256x256: 100 ns
-Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 256x256: 256083000 ns
-Tiempo de ejecución (Winograd Scaled) con tamaño 256x256: 236227100 ns
-Tiempo de ejecución (IV.3 Sequential Block) con tamaño 256x256: 317759700 ns
-Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 256x256: 322953800 ns
-Tiempo de ejecución (NaivLoopUnrollingTwo) con tamaño 256x256: 267237100 ns
-Tiempo de ejecución (WinogradOriginal) con tamaño 256x256: 223436400 ns
-Tiempo de ejecución (StrassenNaiv) con tamaño 256x256: 14447847200 ns
-Tiempo de ejecución (III.3 Sequential Block) con tamaño 256x256: 288811100 ns
-Tiempo de ejecución (III.5 Enhanced Parallel Block) con tamaño 256x256: 138644900 ns
-Tiempo de ejecución (Strassen-Winograd) con tamaño 256x256: 300 ns
-Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 256x256: 258532700 ns
-Tiempo de ejecución (Winograd Scaled) con tamaño 256x256: 221115400 ns
-Tiempo de ejecución (IV.3 Sequential Block) con tamaño 256x256: 310400000 ns
-Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 256x256: 320795100 ns
-Tiempo de ejecución (NaivLoopUnrollingTwo) con tamaño 256x256: 256397100 ns
-Tiempo de ejecución (WinogradOriginal) con tamaño 256x256: 247247200 ns
-Tiempo de ejecución (StrassenNaiv) con tamaño 256x256: 15866212300 ns
-Tiempo de ejecución (III.3 Sequential Block) con tamaño 256x256: 330417800 ns
-Tiempo de ejecución (III.5 Enhanced Parallel Block) con tamaño 256x256: 150529400 ns
+Tiempo de ejecución (NaivLoopUnrollingFour) con tamaño 256x256: 813797500 ns
+Tiempo de ejecución (Winograd Scaled) con tamaño 256x256: 582722700 ns
+Tiempo de ejecución (IV.3 Sequential Block) con tamaño 256x256: 809149900 ns
+Tiempo de ejecución (IV.5 Enhanced Parallel Block) con tamaño 256x256: 787893800 ns
+Tiempo de ejecución (NaivLoopUnrollingTwo) con tamaño 256x256: 765410000 ns
+Tiempo de ejecución (WinogradOriginal) con tamaño 256x256: 608173000 ns
+Tiempo de ejecución (StrassenNaiv) con tamaño 256x256: 109408161300 ns
+Tiempo de ejecución (III.3 Sequential Block) con tamaño 256x256: 1113329400 ns
+Tiempo de ejecución (III.5 Enhanced Parallel Block) con tamaño 256x256: 533415100 ns

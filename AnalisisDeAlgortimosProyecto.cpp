@@ -51,23 +51,22 @@ void logExecutionTime(const string& algorithmName, int matrixSize, long long dur
     }
 }
 
-bool loadMatrixFromFile(vector<vector<int>>& matrix, const string& filename) {
+bool loadMatrixFromFile(const string& filename, vector<vector<int>>& matrix, int n) {
     ifstream file(filename);
-    if (file.is_open()) {
-        int n = matrix.size();
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                file >> matrix[i][j];
-            }
-        }
-        file.close();
-        cout << "Matriz cargada desde " << filename << endl;
-        return true;
-    }
-    else {
+    if (!file.is_open()) {
         cerr << "No se pudo abrir el archivo " << filename << endl;
         return false;
     }
+
+    matrix.resize(n, vector<int>(n));
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            file >> matrix[i][j];
+        }
+    }
+
+    file.close();
+    return true;
 }
 
 // Algoritmo 1: Strassen-Winograd (Versión simplificada)
@@ -377,7 +376,7 @@ int main() {
     saveMatrixToFile(A, "matriz_A2.txt");
     saveMatrixToFile(B, "matriz_B2.txt");*/
 
-    if (!loadMatrixFromFile(A, "matriz_A2.txt") || !loadMatrixFromFile(B, "matriz_B2.txt")) {
+    if (!loadMatrixFromFile("matriz_A256.txt",A,n) || !loadMatrixFromFile("matriz_B256.txt",B,n)) {
         cerr << "Error al cargar las matrices." << endl;
         return 1;
     }
