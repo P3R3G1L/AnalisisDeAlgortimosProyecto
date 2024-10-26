@@ -1,4 +1,4 @@
 ﻿  AnalisisDeAlgortimosProyecto.cpp
 C:\Users\jr956\source\repos\AnalisisDeAlgortimosProyecto\AnalisisDeAlgortimosProyecto\AnalisisDeAlgortimosProyecto.cpp(27,15): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\jr956\source\repos\AnalisisDeAlgortimosProyecto\AnalisisDeAlgortimosProyecto\AnalisisDeAlgortimosProyecto.cpp(45,15): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\jr956\source\repos\AnalisisDeAlgortimosProyecto\AnalisisDeAlgortimosProyecto\AnalisisDeAlgortimosProyecto.cpp(57,15): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
   AnalisisDeAlgortimosProyecto.vcxproj -> C:\Users\jr956\source\repos\AnalisisDeAlgortimosProyecto\x64\Debug\AnalisisDeAlgortimosProyecto.exe

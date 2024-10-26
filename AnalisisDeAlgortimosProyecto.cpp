@@ -39,6 +39,18 @@ void saveMatrixToFile(const vector<vector<int>>& matrix, const string& filename)
     }
 }
 
+void logExecutionTime(const string& algorithmName, int matrixSize, long long duration) {
+    ofstream file("tiempos_ejecucion.txt", ios::app);  // ios::app permite añadir datos al final del archivo
+    if (file.is_open()) {
+        file << "Tiempo de ejecución (" << algorithmName << ") con tamaño " << matrixSize << "x" << matrixSize << ": " << duration << " ns\n";
+        file.close();
+        cout << "Tiempo registrado en execution_times.txt" << endl;
+    }
+    else {
+        cerr << "No se pudo abrir el archivo execution_times.txt" << endl;
+    }
+}
+
 bool loadMatrixFromFile(vector<vector<int>>& matrix, const string& filename) {
     ifstream file(filename);
     if (file.is_open()) {
@@ -67,7 +79,6 @@ void strassenWinograd(const vector<vector<int>>& A, const vector<vector<int>>& B
                     C[i][j] += A[i][k] * B[k][j];
         return;
     }
-    // Implementación más avanzada puede requerir recursión y dividir matrices
 }
 
 // Algoritmo 2: NaivLoopUnrollingFour
@@ -131,8 +142,10 @@ void measureExecutionTime(void (*algorithm)(const vector<vector<int>>&, const ve
     auto start = high_resolution_clock::now();
     algorithm(A, B, C, n);
     auto end = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(end - start);
-    cout << "Tiempo de ejecución (" << name << "): " << duration.count() << " ns" << endl;
+    auto duration = duration_cast<nanoseconds>(end - start).count();
+    cout << "Tiempo de ejecución (" << name << "): " << duration << " ns" << endl;
+    // Guardar el tiempo de ejecución en el archivo
+    logExecutionTime(name, n, duration);
 }
 
 // Sobrecarga de measureExecutionTime que acepta un argumento extra
@@ -141,15 +154,18 @@ void measureExecutionTime(const function<void(const vector<vector<int>>&, const 
     auto start = high_resolution_clock::now();
     algorithm(A, B, C, n);
     auto end = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(end - start);
-    cout << "Tiempo de ejecución (" << name << "): " << duration.count() << " ns" << endl;
+    auto duration = duration_cast<nanoseconds>(end - start).count();
+    cout << "Tiempo de ejecución (" << name << "): " << duration << " ns" << endl;
+    // Guardar el tiempo de ejecución en el archivo
+    logExecutionTime(name, n, duration);
+
 }
 
 
 // Función principal
 int main() {
-    int n = 2;  // Tamaño de la matriz
-    int blockSize = n/2;  // Tamaño de bloque para los algoritmos de bloques
+    int n = 32;  // Tamaño de la matriz
+    int blockSize = n/4;  // Tamaño de bloque para los algoritmos de bloques
     vector<vector<int>> A(n, vector<int>(n));
     vector<vector<int>> B(n, vector<int>(n));
     vector<vector<int>> C(n, vector<int>(n, 0));
