@@ -236,10 +236,10 @@ results = [
     ("IV.3 Sequential Block", measure_time(sequential_block, A, B, block_size)),
     ("IV.5 Enhanced Parallel Block", measure_time(enhanced_parallel_block, A, B, block_size)),
     ("NaivLoopUnrollingTwo", measure_time(naiv_loop_unrolling_two, A, B)),
-    ("Winograd Original", measure_time(winograd_original, A, B)),
-    ("Strassen-Naiv", measure_time(strassen_naiv, A, B)),
-    ("III.3 Sequential Block V3", measure_time(sequential_block_3, A, B, block_size)),
-    ("III.5 Enhanced Parallel Block V2", measure_time(enhanced_parallel_block_v2, A, B, block_size)),
+    ("WinogradOriginal", measure_time(winograd_original, A, B)),
+    ("StrassenNaiv", measure_time(strassen_naiv, A, B)),
+    ("III.3 Sequential Block", measure_time(sequential_block_3, A, B, block_size)),
+    ("III.5 Enhanced Parallel Block", measure_time(enhanced_parallel_block_v2, A, B, block_size)),
 ]
 
 # Guardar los resultados en un archivo .txt con el tamaño de la matriz

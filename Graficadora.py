@@ -35,5 +35,10 @@ def plot_execution_times(filename):
 
 
 # Nombre del archivo .txt con los datos
-filename = "tiempos_ejecucion_Python.txt"
-plot_execution_times(filename)
+filenamePy = "tiempos_ejecucion_Python.txt"
+plot_execution_times(filenamePy)
+
+filenameCpp = "tiempos_ejecucion_C.txt"
+plot_execution_times(filenameCpp)
+
+
