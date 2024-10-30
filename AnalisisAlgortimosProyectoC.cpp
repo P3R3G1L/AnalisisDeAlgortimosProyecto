@@ -40,14 +40,14 @@ using namespace chrono;
 //}
 
 void logExecutionTime(const string& algorithmName, int matrixSize, long long duration) {
-    ofstream file("tiempos_ejecucion.txt", ios::app);  // ios::app permite añadir datos al final del archivo
+    ofstream file("tiempos_ejecucion_C.txt", ios::app);  // ios::app permite añadir datos al final del archivo
     if (file.is_open()) {
-        file << "Tiempo de ejecución (" << algorithmName << ") con tamaño " << matrixSize << "x" << matrixSize << ": " << duration << " ns\n";
+        file << "Tiempo de ejecucion (" << algorithmName << ") con tamano " << matrixSize << "x" << matrixSize << ": " << duration << " ns\n";
         file.close();
-        cout << "Tiempo registrado en execution_times.txt" << endl;
+        cout << "Tiempo registrado en tiempos_ejecucion_C.txt" << endl;
     }
     else {
-        cerr << "No se pudo abrir el archivo execution_times.txt" << endl;
+        cerr << "No se pudo abrir el archivo tiempos_ejecucion_C.txt" << endl;
     }
 }
 
@@ -342,7 +342,7 @@ void measureExecutionTime(void (*algorithm)(const vector<vector<int>>&, const ve
     algorithm(A, B, C, n);
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(end - start).count();
-    cout << "Tiempo de ejecución (" << name << "): " << duration << " ns" << endl;
+    cout << "Tiempo de ejecucion (" << name << "): " << duration << " ns" << endl;
     // Guardar el tiempo de ejecución en el archivo
     logExecutionTime(name, n, duration);
 }
@@ -354,7 +354,7 @@ void measureExecutionTime(const function<void(const vector<vector<int>>&, const 
     algorithm(A, B, C, n);
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(end - start).count();
-    cout << "Tiempo de ejecución (" << name << "): " << duration << " ns" << endl;
+    cout << "Tiempo de ejecucion (" << name << "): " << duration << " ns" << endl;
     // Guardar el tiempo de ejecución en el archivo
     logExecutionTime(name, n, duration);
 
@@ -441,6 +441,7 @@ int main() {
     fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
 
     measureExecutionTime(enhancedParallelBlockLambda2, A, B, C, n, "III.5 Enhanced Parallel Block");
+    cout << "---------------------------------------------------------------------------------------" << endl;
 
     return 0;
 }
