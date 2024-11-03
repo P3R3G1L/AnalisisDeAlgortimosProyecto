@@ -39,17 +39,25 @@ using namespace chrono;
     //}
 //}
 
+void initializeLogFile() {
+    ofstream file("tiempos_ejecucion_C.txt", ios::trunc); // 'ios::trunc' borra el contenido del archivo
+    if (!file.is_open()) {
+        cerr << "No se pudo abrir el archivo tiempos_ejecucion_C.txt para inicializarlo" << endl;
+    }
+    file.close();
+}
+
 void logExecutionTime(const string& algorithmName, int matrixSize, long long duration) {
-    ofstream file("tiempos_ejecucion_C.txt", ios::app);  // ios::app permite añadir datos al final del archivo
+    ofstream file("tiempos_ejecucion_C.txt", ios::app); // 'ios::app' añade datos al final del archivo
     if (file.is_open()) {
         file << "Tiempo de ejecucion (" << algorithmName << ") con tamano " << matrixSize << "x" << matrixSize << ": " << duration << " ns\n";
         file.close();
         cout << "Tiempo registrado en tiempos_ejecucion_C.txt" << endl;
-    }
-    else {
+    } else {
         cerr << "No se pudo abrir el archivo tiempos_ejecucion_C.txt" << endl;
     }
 }
+
 
 bool loadMatrixFromFile(vector<vector<int>>& matrix, const string& filename) {
     ifstream file(filename);
@@ -378,7 +386,7 @@ int main() {
     vector<vector<int>> A(n, vector<int>(n));
     vector<vector<int>> B(n, vector<int>(n));
     vector<vector<int>> C(n, vector<int>(n, 0));
-
+    initializeLogFile();
     // Llenar matrices con valores aleatorios de 6 dígitos
     /*fillMatrix(A, n);
     fillMatrix(B, n);
