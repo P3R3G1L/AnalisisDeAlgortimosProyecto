@@ -52,7 +52,6 @@ void logExecutionTime(const string& algorithmName, int matrixSize, long long dur
     if (file.is_open()) {
         file << "Tiempo de ejecucion (" << algorithmName << ") con tamano " << matrixSize << "x" << matrixSize << ": " << duration << " ns\n";
         file.close();
-        cout << "Tiempo registrado en tiempos_ejecucion_C.txt" << endl;
     } else {
         cerr << "No se pudo abrir el archivo tiempos_ejecucion_C.txt" << endl;
     }
@@ -78,73 +77,7 @@ bool loadMatrixFromFile(vector<vector<int>>& matrix, const string& filename) {
     }
 }
 
-// Algoritmo 1: Strassen-Winograd (Versión simplificada)
-void strassenWinograd(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
-    if (n <= 2) {
-        for (int i = 0; i < n; ++i)
-            for (int j = 0; j < n; ++j)
-                for (int k = 0; k < n; ++k)
-                    C[i][j] += A[i][k] * B[k][j];
-        return;
-    }
-}
-
-// Algoritmo 2: NaivLoopUnrollingFour
-void naivLoopUnrollingFour(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
-    for (int i = 0; i < n; i += 4)
-        for (int j = 0; j < n; ++j)
-            for (int k = 0; k < n; ++k) {
-                C[i][j] += A[i][k] * B[k][j];
-                if (i + 1 < n) C[i + 1][j] += A[i + 1][k] * B[k][j];
-                if (i + 2 < n) C[i + 2][j] += A[i + 2][k] * B[k][j];
-                if (i + 3 < n) C[i + 3][j] += A[i + 3][k] * B[k][j];
-            }
-}
-
-// Algoritmo 3: Winograd Scaled
-void winogradScaled(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
-    vector<int> rowFactor(n, 0), colFactor(n, 0);
-
-    for (int i = 0; i < n; ++i)
-        for (int k = 0; k < n / 2; ++k)
-            rowFactor[i] += A[i][2 * k] * A[i][2 * k + 1];
-
-    for (int j = 0; j < n; ++j)
-        for (int k = 0; k < n / 2; ++k)
-            colFactor[j] += B[2 * k][j] * B[2 * k + 1][j];
-
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            C[i][j] = -rowFactor[i] - colFactor[j];
-            for (int k = 0; k < n / 2; ++k) {
-                C[i][j] += (A[i][2 * k] + B[2 * k + 1][j]) * (A[i][2 * k + 1] + B[2 * k][j]);
-            }
-        }
-    }
-
-    if (n % 2 == 1)
-        for (int i = 0; i < n; ++i)
-            for (int j = 0; j < n; ++j)
-                C[i][j] += A[i][n - 1] * B[n - 1][j];
-}
-
-// Algoritmo 4: IV.3 Sequential Block
-void sequentialBlock(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n, int blockSize) {
-    for (int ii = 0; ii < n; ii += blockSize)
-        for (int jj = 0; jj < n; jj += blockSize)
-            for (int kk = 0; kk < n; kk += blockSize)
-                for (int i = ii; i < min(ii + blockSize, n); ++i)
-                    for (int j = jj; j < min(jj + blockSize, n); ++j)
-                        for (int k = kk; k < min(kk + blockSize, n); ++k)
-                            C[i][j] += A[i][k] * B[k][j];
-}
-
-// Algoritmo 5: IV.5 Enhanced Parallel Block 
-void enhancedParallelBlock(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n, int blockSize) {
-    sequentialBlock(A, B, C, n, blockSize);  // Implementación básica reutilizando sequential block
-}
-
-// Algoritmo 6: NaivLoopUnrollingTwo
+// Algoritmo 1: NaivLoopUnrollingTwo
 void NaivLoopUnrollingTwo(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
@@ -160,27 +93,38 @@ void NaivLoopUnrollingTwo(const vector<vector<int>>& A, const vector<vector<int>
     }
 }
 
-// Algoritmo 7: WinogradOriginal
+// Algoritmo 2: NaivLoopUnrollingFour
+void naivLoopUnrollingFour(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
+    for (int i = 0; i < n; i += 4)
+        for (int j = 0; j < n; ++j)
+            for (int k = 0; k < n; ++k) {
+                C[i][j] += A[i][k] * B[k][j];
+                if (i + 1 < n) C[i + 1][j] += A[i + 1][k] * B[k][j];
+                if (i + 2 < n) C[i + 2][j] += A[i + 2][k] * B[k][j];
+                if (i + 3 < n) C[i + 3][j] += A[i + 3][k] * B[k][j];
+            }
+}
+
+// Algoritmo 3: WinogradOriginal
 void WinogradOriginal(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
-    // Calcular los productos parciales de las filas de A y columnas de B
     vector<int> rowFactor(n, 0);
     vector<int> colFactor(n, 0);
 
-    // Calcular los factores de las filas para la matriz A
+    // Calcular factores de las filas de A
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n / 2; ++j) {
             rowFactor[i] += A[i][2 * j] * A[i][2 * j + 1];
         }
     }
 
-    // Calcular los factores de las columnas para la matriz B
+    // Calcular factores de las columnas de B
     for (int j = 0; j < n; ++j) {
         for (int i = 0; i < n / 2; ++i) {
             colFactor[j] += B[2 * i][j] * B[2 * i + 1][j];
         }
     }
 
-    // Calcular la matriz C usando los factores calculados
+    // Calcular los elementos de C usando los factores calculados
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             C[i][j] = -rowFactor[i] - colFactor[j];
@@ -189,12 +133,50 @@ void WinogradOriginal(const vector<vector<int>>& A, const vector<vector<int>>& B
             }
         }
     }
-
 }
 
-// Algoritmo 8: StrassenNaiv
+void winogradScaled(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
+    // Tamaños de las matrices
+    int m = A.size();
+    int p = B[0].size();
+
+    // Paso 1: Calcular los vectores de multiplicación intermedios
+    // Vector de producto de filas de A
+    vector<int> row_factor(m, 0);
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n - 1; j += 2) {
+            row_factor[i] += A[i][j] * A[i][j + 1];
+        }
+    }
+
+    // Vector de producto de columnas de B
+    vector<int> col_factor(p, 0);
+    for (int j = 0; j < p; ++j) {
+        for (int i = 0; i < n - 1; i += 2) {
+            col_factor[j] += B[i][j] * B[i + 1][j];
+        }
+    }
+
+    // Paso 2: Calcular los valores de la matriz resultado C usando los factores
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < p; ++j) {
+            // Calcular el producto para la celda C[i][j]
+            C[i][j] = -row_factor[i] - col_factor[j];
+            for (int k = 0; k < n - 1; k += 2) {
+                C[i][j] += (A[i][k] + B[k + 1][j]) * (A[i][k + 1] + B[k][j]);
+            }
+
+            // Si n es impar, se necesita un ajuste adicional
+            if (n % 2 == 1) {
+                C[i][j] += A[i][n - 1] * B[n - 1][j];
+            }
+        }
+    }
+}
+
+// Algoritmo 5: StrassenNaiv
 // Función para sumar dos matrices
-vector<vector<int>> add(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+vector<vector<int>> add1(const vector<vector<int>>& A, const vector<vector<int>>& B) {
     int n = A.size();
     vector<vector<int>> C(n, vector<int>(n));
     for (int i = 0; i < n; ++i) {
@@ -257,13 +239,13 @@ void StrassenNaiv(const vector<vector<int>>& A, const vector<vector<int>>& B, ve
     vector<vector<int>> M6(newSize, vector<int>(newSize));
     vector<vector<int>> M7(newSize, vector<int>(newSize));
 
-    StrassenNaiv(add(A11, A22), add(B11, B22), M1, newSize);
-    StrassenNaiv(add(A21, A22), B11, M2, newSize);
+    StrassenNaiv(add1(A11, A22), add1(B11, B22), M1, newSize);
+    StrassenNaiv(add1(A21, A22), B11, M2, newSize);
     StrassenNaiv(A11, subtract(B12, B22), M3, newSize);
     StrassenNaiv(A22, subtract(B21, B11), M4, newSize);
-    StrassenNaiv(add(A11, A12), B22, M5, newSize);
-    StrassenNaiv(subtract(A21, A11), add(B11, B12), M6, newSize);
-    StrassenNaiv(subtract(A12, A22), add(B21, B22), M7, newSize);
+    StrassenNaiv(add1(A11, A12), B22, M5, newSize);
+    StrassenNaiv(subtract(A21, A11), add1(B11, B12), M6, newSize);
+    StrassenNaiv(subtract(A12, A22), add1(B21, B22), M7, newSize);
 
     // Combinar los resultados en la matriz C
     for (int i = 0; i < newSize; ++i) {
@@ -276,8 +258,94 @@ void StrassenNaiv(const vector<vector<int>>& A, const vector<vector<int>>& B, ve
     }
 }
 
+// Algoritmo 6: Strassen-Winograd (Versión simplificada)
+void add(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int size) {
+    for (int i = 0; i < size; ++i)
+        for (int j = 0; j < size; ++j)
+            C[i][j] = A[i][j] + B[i][j];
+}
 
-// Algoritmo 9: III.3 Sequential Block 
+void subtract(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int size) {
+    for (int i = 0; i < size; ++i)
+        for (int j = 0; j < size; ++j)
+            C[i][j] = A[i][j] - B[i][j];
+}
+void strassenWinograd(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
+    if (n <= 2) {
+        // Condición base: multiplicación convencional para matrices pequeñas
+        for (int i = 0; i < n; ++i)
+            for (int j = 0; j < n; ++j)
+                for (int k = 0; k < n; ++k)
+                    C[i][j] += A[i][k] * B[k][j];
+        return;
+    }
+
+    int newSize = n / 2;
+    vector<vector<int>> 
+        A11(newSize, vector<int>(newSize)), A12(newSize, vector<int>(newSize)), 
+        A21(newSize, vector<int>(newSize)), A22(newSize, vector<int>(newSize)),
+        B11(newSize, vector<int>(newSize)), B12(newSize, vector<int>(newSize)), 
+        B21(newSize, vector<int>(newSize)), B22(newSize, vector<int>(newSize)),
+        C11(newSize, vector<int>(newSize)), C12(newSize, vector<int>(newSize)), 
+        C21(newSize, vector<int>(newSize)), C22(newSize, vector<int>(newSize)),
+        M1(newSize, vector<int>(newSize)), M2(newSize, vector<int>(newSize)), 
+        M3(newSize, vector<int>(newSize)), M4(newSize, vector<int>(newSize)), 
+        T1(newSize, vector<int>(newSize)), T2(newSize, vector<int>(newSize));
+
+    // Dividir las matrices en submatrices
+    for (int i = 0; i < newSize; ++i) {
+        for (int j = 0; j < newSize; ++j) {
+            A11[i][j] = A[i][j];
+            A12[i][j] = A[i][j + newSize];
+            A21[i][j] = A[i + newSize][j];
+            A22[i][j] = A[i + newSize][j + newSize];
+
+            B11[i][j] = B[i][j];
+            B12[i][j] = B[i][j + newSize];
+            B21[i][j] = B[i + newSize][j];
+            B22[i][j] = B[i + newSize][j + newSize];
+        }
+    }
+
+    // Calcular matrices M1 a M4 (combinaciones simplificadas de Strassen-Winograd)
+    add(A11, A22, T1, newSize); // T1 = A11 + A22
+    add(B11, B22, T2, newSize); // T2 = B11 + B22
+    strassenWinograd(T1, T2, M1, newSize); // M1 = (A11 + A22) * (B11 + B22)
+
+    add(A21, A22, T1, newSize); // T1 = A21 + A22
+    strassenWinograd(T1, B11, M2, newSize); // M2 = (A21 + A22) * B11
+
+    subtract(B12, B22, T2, newSize); // T2 = B12 - B22
+    strassenWinograd(A11, T2, M3, newSize); // M3 = A11 * (B12 - B22)
+
+    subtract(B21, B11, T2, newSize); // T2 = B21 - B11
+    strassenWinograd(A22, T2, M4, newSize); // M4 = A22 * (B21 - B11)
+
+    // Calcular submatrices C11, C12, C21 y C22 combinando M1, M2, M3 y M4
+    add(M1, M4, T1, newSize);
+    subtract(T1, M2, T2, newSize);
+    add(T2, M3, C11, newSize); // C11 = M1 + M4 - M2 + M3
+
+    add(M1, M3, C12, newSize); // C12 = M1 + M3
+
+    add(M2, M4, C21, newSize); // C21 = M2 + M4
+
+    subtract(M1, M3, T1, newSize);
+    add(T1, M2, T2, newSize);
+    add(T2, M4, C22, newSize); // C22 = M1 - M3 + M2 + M4
+
+    // Combinar submatrices en C
+    for (int i = 0; i < newSize; ++i) {
+        for (int j = 0; j < newSize; ++j) {
+            C[i][j] = C11[i][j];
+            C[i][j + newSize] = C12[i][j];
+            C[i + newSize][j] = C21[i][j];
+            C[i + newSize][j + newSize] = C22[i][j];
+        }
+    }
+}
+
+// Algoritmo 7: III.3 Sequential Block 
 void sequentialBlock3(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n, int blockSize) {
     // Inicializa la matriz C en cero
     for (int i = 0; i < n; ++i) {
@@ -303,8 +371,20 @@ void sequentialBlock3(const vector<vector<int>>& A, const vector<vector<int>>& B
     }
 }
 
+// Algoritmo 8: IV.3 Sequential Block
+void sequentialBlock(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n, int blockSize) {
+    for (int ii = 0; ii < n; ii += blockSize)
+        for (int jj = 0; jj < n; jj += blockSize)
+            for (int kk = 0; kk < n; kk += blockSize)
+                for (int i = ii; i < min(ii + blockSize, n); ++i)
+                    for (int j = jj; j < min(jj + blockSize, n); ++j)
+                        for (int k = kk; k < min(kk + blockSize, n); ++k)
+                            C[i][j] += A[i][k] * B[k][j];
+}
 
-// Algoritmo 10: III.5 Enhanced Parallel Block
+
+
+// Algoritmo 9: III.5 Enhanced Parallel Block
 const int MAX_THREADS = 8;  // Define el número máximo de hilos que se utilizarán
 
 // Función para multiplicación de bloques en paralelo
@@ -326,7 +406,6 @@ void blockMultiply(const vector<vector<int>>& A, const vector<vector<int>>& B, v
     }
 }
 
-// Algoritmo 10: III.5 Enhanced Parallel Block
 void enhancedParallelBlock3(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n, int blockSize) {
     vector<thread> threads;
     int rowsPerThread = n / MAX_THREADS;
@@ -340,6 +419,33 @@ void enhancedParallelBlock3(const vector<vector<int>>& A, const vector<vector<in
 
     for (auto& th : threads) {
         th.join();
+    }
+}
+
+void enhancedParallelBlock(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n, int blockSize) {
+    vector<thread> threads;
+
+    for (int ii = 0; ii < n; ii += blockSize) {
+        for (int jj = 0; jj < n; jj += blockSize) {
+            threads.emplace_back([&, ii, jj]() {
+                for (int kk = 0; kk < n; kk += blockSize) {
+                    for (int i = ii; i < min(ii + blockSize, n); ++i) {
+                        for (int j = jj; j < min(jj + blockSize, n); ++j) {
+                            for (int k = kk; k < min(kk + blockSize, n); ++k) {
+                                C[i][j] += A[i][k] * B[k][j];
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    // Espera a que todos los hilos terminen su ejecución
+    for (auto& t : threads) {
+        if (t.joinable()) {
+            t.join();
+        }
     }
 }
 
@@ -381,7 +487,7 @@ void printMatrix(const vector<vector<int>>& matrix) {
 
 // Función principal
 int main() {
-    int n = 16;  // Tamaño de la matriz
+    int n = 256;  // Tamaño de la matriz
     int blockSize = n/2;  // Tamaño de bloque para los algoritmos de bloques
     vector<vector<int>> A(n, vector<int>(n));
     vector<vector<int>> B(n, vector<int>(n));
@@ -407,48 +513,62 @@ int main() {
     // Ejecutar cada algoritmo y medir su tiempo de ejecución
     cout << "Ejecutando algoritmos de multiplicación de matrices para matrices de tamaño " << n << "x" << n << endl;
 
-    measureExecutionTime(strassenWinograd, A, B, C, n, "Strassen-Winograd");
+    measureExecutionTime(NaivLoopUnrollingTwo, A, B, C, n, "NaivLoopUnrollingTwo");
     fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
 
     measureExecutionTime(naivLoopUnrollingFour, A, B, C, n, "NaivLoopUnrollingFour");
     fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
 
+    measureExecutionTime(WinogradOriginal, A, B, C, n, "WinogradOriginal");
+    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C 
+
     measureExecutionTime(winogradScaled, A, B, C, n, "Winograd Scaled");
     fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
 
-    auto sequentialBlockLambda = [&](const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
-        sequentialBlock(A, B, C, n, blockSize);
-        };
-    auto enhancedParallelBlockLambda = [&](const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
-        enhancedParallelBlock(A, B, C, n, blockSize);
-        };
-
-    measureExecutionTime(sequentialBlockLambda, A, B, C, n, "IV.3 Sequential Block");
-    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
-
-    measureExecutionTime(enhancedParallelBlockLambda, A, B, C, n, "IV.5 Enhanced Parallel Block");
-    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
-    
-    measureExecutionTime(NaivLoopUnrollingTwo, A, B, C, n, "NaivLoopUnrollingTwo");
-    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
-
-    measureExecutionTime(WinogradOriginal, A, B, C, n, "WinogradOriginal");
-    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C   
-
     measureExecutionTime(StrassenNaiv, A, B, C, n, "StrassenNaiv"); 
-    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C   
+    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C  
+
+    measureExecutionTime(strassenWinograd, A, B, C, n, "Strassen-Winograd");
+    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
 
     auto sequentialBlockLambda2 = [&](const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
         sequentialBlock3(A, B, C, n, blockSize);
-        };
-    auto enhancedParallelBlockLambda2 = [&](const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
-        enhancedParallelBlock3(A, B, C, n, blockSize);
         };
 
     measureExecutionTime(sequentialBlockLambda2, A, B, C, n, "III.3 Sequential Block");
     fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
 
+    auto sequentialBlockLambda = [&](const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
+        sequentialBlock(A, B, C, n, blockSize);
+        };
+    
+    measureExecutionTime(sequentialBlockLambda, A, B, C, n, "IV.3 Sequential Block");
+    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
+
+    auto enhancedParallelBlockLambda2 = [&](const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
+        enhancedParallelBlock3(A, B, C, n, blockSize);
+        };
     measureExecutionTime(enhancedParallelBlockLambda2, A, B, C, n, "III.5 Enhanced Parallel Block");
+
+    auto enhancedParallelBlockLambda = [&](const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n) {
+        enhancedParallelBlock(A, B, C, n, blockSize);
+        };
+
+    measureExecutionTime(enhancedParallelBlockLambda, A, B, C, n, "IV.5 Enhanced Parallel Block");
+    fill(C.begin(), C.end(), vector<int>(n, 0));  // Reset de la matriz C
+    
+    
+
+      
+
+    
+
+    
+    
+
+    
+
+    
     cout << "---------------------------------------------------------------------------------------" << endl;
 
     return 0;
