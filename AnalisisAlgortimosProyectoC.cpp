@@ -421,7 +421,7 @@ void enhancedParallelBlock3(const vector<vector<int>>& A, const vector<vector<in
         th.join();
     }
 }
-
+// Algoritmo 9: IV.5 Enhanced Parallel Block
 void enhancedParallelBlock(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int n, int blockSize) {
     vector<thread> threads;
 
@@ -487,7 +487,7 @@ void printMatrix(const vector<vector<int>>& matrix) {
 
 // Función principal
 int main() {
-    int n = 256;  // Tamaño de la matriz
+    int n = 2;  // Tamaño de la matriz
     int blockSize = n/2;  // Tamaño de bloque para los algoritmos de bloques
     vector<vector<int>> A(n, vector<int>(n));
     vector<vector<int>> B(n, vector<int>(n));

@@ -235,7 +235,7 @@ def print_matrix(matrix):
     print()
 
 # Prueba de los algoritmos con matrices
-matrix_size = 256 # Tamaño de la matriz
+matrix_size = 2; # Tamaño de la matriz
 block_size = matrix_size//2 # Tamaño de bloque para los algoritmos de bloque
 # Cargar matrices A y B desde archivos según el tamaño especificado
 A = load_matrix_from_file('A', matrix_size)

@@ -1,0 +1,10 @@
+Tiempo de ejecucion (NaivLoopUnrollingTwo) con tamano 16x16: 4413900 ns
+Tiempo de ejecucion (NaivLoopUnrollingFour) con tamano 16x16: 4080800 ns
+Tiempo de ejecucion (WinogradOriginal) con tamano 16x16: 4445300 ns
+Tiempo de ejecucion (Winograd Scaled) con tamano 16x16: 3205300 ns
+Tiempo de ejecucion (StrassenNaiv) con tamano 16x16: 12359500 ns
+Tiempo de ejecucion (Strassen-Winograd) con tamano 16x16: 13208300 ns
+Tiempo de ejecucion (III.3 Sequential Block) con tamano 16x16: 3224200 ns
+Tiempo de ejecucion (IV.3 Sequential Block) con tamano 16x16: 4871700 ns
+Tiempo de ejecucion (III.5 Enhanced Parallel Block) con tamano 16x16: 10025500 ns
+Tiempo de ejecucion (IV.5 Enhanced Parallel Block) con tamano 16x16: 7839600 ns
