@@ -60,8 +60,8 @@ def plot_execution_times(ax, filename, title):
 # Función para actualizar la gráfica cuando se selecciona un tamaño de matriz
 def update_plot(size, ax_python, ax_cpp):
     selected_size = int(size)  # Convierte el tamaño seleccionado a entero
-    filename_python = f"tiemposDeEjecucion/tiemposDeEjecucionPython/tiempos_ejecucion_Python_{selected_size}.txt"
-    filename_c = f"tiemposDeEjecucion/tiemposDeEjecucionC++/tiempos_ejecucion_C_{selected_size}.txt"
+    filename_python = f"PFAnalisis/tiemposDeEjecucion/tiemposDeEjecucionPython/tiempos_ejecucion_Python_{selected_size}.txt"
+    filename_c = f"PFAnalisis/tiemposDeEjecucion/tiemposDeEjecucionC++/tiempos_ejecucion_C_{selected_size}.txt"
 
     # Actualiza ambas gráficas con el tamaño seleccionado
     plot_execution_times(ax_python, filename_python, "Tiempos de ejecución Python")
@@ -72,8 +72,8 @@ def update_plot(size, ax_python, ax_cpp):
 # Función para ejecutar los programas externos
 def execute_programs(size):
     selected_size = int(size)
-    python_script = r"C:\Users\Nicolas\Documents\PFAnalisisDeAlgoritmos\programas\AnalisisAlgoritmosProyectoPython.py"
-    cpp_executable = r"C:\Users\Nicolas\Documents\PFAnalisisDeAlgoritmos\programas\AnalisisAlgortimosProyectoC.exe"  # Asegúrate de compilar el .cpp a .exe
+    python_script = r"C:\Users\Nicolas\Documents\PFAnalisisDeAlgoritmos\PFAnalisis\programas\AnalisisAlgoritmosProyectoPython.py"
+    cpp_executable = r"C:\Users\Nicolas\Documents\PFAnalisisDeAlgoritmos\PFAnalisis\programas\AnalisisAlgortimosProyectoC.exe"  # Asegúrate de compilar el .cpp a .exe
 
     try:
         # Ejecutar el script de Python

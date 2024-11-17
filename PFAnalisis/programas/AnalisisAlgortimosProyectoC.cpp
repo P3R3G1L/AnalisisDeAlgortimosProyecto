@@ -43,7 +43,7 @@ using namespace chrono;
 
 // Inicializa el archivo para un tamaño específico de matriz
 void initializeLogFile(int matrixSize) {
-    string filename = "tiemposDeEjecucion/tiemposDeEjecucionC++/tiempos_ejecucion_C_" + to_string(matrixSize) + ".txt";
+    string filename = "PFAnalisis/tiemposDeEjecucion/tiemposDeEjecucionC++/tiempos_ejecucion_C_" + to_string(matrixSize) + ".txt";
     ofstream file(filename, ios::trunc); // 'ios::trunc' borra el contenido del archivo si existe
     if (!file.is_open()) {
         cerr << "No se pudo abrir el archivo " << filename << " para inicializarlo" << endl;
@@ -55,7 +55,7 @@ void initializeLogFile(int matrixSize) {
 
 // Registra el tiempo de ejecución en el archivo correspondiente al tamaño de la matriz
 void logExecutionTime(const string& algorithmName, int matrixSize, long long duration) {
-    string filename = "tiemposDeEjecucion/tiemposDeEjecucionC++/tiempos_ejecucion_C_" + to_string(matrixSize) + ".txt";
+    string filename = "PFAnalisis/tiemposDeEjecucion/tiemposDeEjecucionC++/tiempos_ejecucion_C_" + to_string(matrixSize) + ".txt";
     ofstream file(filename, ios::app); // 'ios::app' añade datos al final del archivo
     if (file.is_open()) {
         file << "Tiempo de ejecucion (" << algorithmName << ") con tamano " << matrixSize << "x" << matrixSize << ": " << duration << " ns\n";
@@ -516,8 +516,8 @@ int main(int argc, char* argv[]) {
 
     // Construir los nombres de archivo basados en el tamaño de la matriz
     // Especificar las rutas relativas de las carpetas
-    string filenameA = "matrices/matricesA/matriz_A" + to_string(n) + ".txt";
-    string filenameB = "matrices/matricesB/matriz_B" + to_string(n) + ".txt";
+    string filenameA = "PFAnalisis/matrices/matricesA/matriz_A" + to_string(n) + ".txt";
+    string filenameB = "PFAnalisis/matrices/matricesB/matriz_B" + to_string(n) + ".txt";
     
     // Cargar las matrices desde los archivos
     if (!loadMatrixFromFile(A, filenameA) || !loadMatrixFromFile(B, filenameB)) {

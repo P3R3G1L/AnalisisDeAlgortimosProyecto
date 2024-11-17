@@ -12,7 +12,7 @@ import sys
 # Cargar matriz desde archivo en función del tamaño
 def load_matrix_from_file(prefix, size):
     # Ajustar la ruta según la subcarpeta correspondiente
-    subfolder = "matrices/matricesA" if prefix == 'A' else "matrices/matricesB"
+    subfolder = "PFAnalisis/matrices/matricesA" if prefix == 'A' else "PFAnalisis/matrices/matricesB"
     filename = f"{subfolder}/matriz_{prefix}{size}.txt"
     try:
         matrix = np.loadtxt(filename, dtype=np.int64)
@@ -233,7 +233,7 @@ def measure_time(func, A, B, block_size=None):
 # Función para agregar tiempos de ejecución en un archivo .txt
 def save_and_display_results(results, matrix_size):
     # Ruta del archivo basada en el tamaño de la matriz
-    folder = "tiemposDeEjecucion/tiemposDeEjecucionPython"
+    folder = "PFAnalisis/tiemposDeEjecucion/tiemposDeEjecucionPython"
     filename = f"{folder}/tiempos_ejecucion_Python_{matrix_size}.txt"
     
     # Asegurarse de que la carpeta exista
