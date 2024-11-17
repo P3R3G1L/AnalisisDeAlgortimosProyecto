@@ -6,6 +6,8 @@
 #include <functional>
 #include <fstream>
 #include <thread>
+#include <iostream>
+#include <cstdlib> 
 
 using namespace std;
 using namespace chrono;
@@ -39,24 +41,30 @@ using namespace chrono;
     //}
 //}
 
-void initializeLogFile() {
-    ofstream file("tiempos_ejecucion_C.txt", ios::trunc); // 'ios::trunc' borra el contenido del archivo
+// Inicializa el archivo para un tamaño específico de matriz
+void initializeLogFile(int matrixSize) {
+    string filename = "tiemposDeEjecucion/tiemposDeEjecucionC++/tiempos_ejecucion_C_" + to_string(matrixSize) + ".txt";
+    ofstream file(filename, ios::trunc); // 'ios::trunc' borra el contenido del archivo si existe
     if (!file.is_open()) {
-        cerr << "No se pudo abrir el archivo tiempos_ejecucion_C.txt para inicializarlo" << endl;
+        cerr << "No se pudo abrir el archivo " << filename << " para inicializarlo" << endl;
+    } else {
+        cout << "Archivo inicializado: " << filename << endl;
     }
     file.close();
 }
 
+// Registra el tiempo de ejecución en el archivo correspondiente al tamaño de la matriz
 void logExecutionTime(const string& algorithmName, int matrixSize, long long duration) {
-    ofstream file("tiempos_ejecucion_C.txt", ios::app); // 'ios::app' añade datos al final del archivo
+    string filename = "tiemposDeEjecucion/tiemposDeEjecucionC++/tiempos_ejecucion_C_" + to_string(matrixSize) + ".txt";
+    ofstream file(filename, ios::app); // 'ios::app' añade datos al final del archivo
     if (file.is_open()) {
         file << "Tiempo de ejecucion (" << algorithmName << ") con tamano " << matrixSize << "x" << matrixSize << ": " << duration << " ns\n";
         file.close();
+        cout << "Tiempo registrado en " << filename << endl;
     } else {
-        cerr << "No se pudo abrir el archivo tiempos_ejecucion_C.txt" << endl;
+        cerr << "No se pudo abrir el archivo " << filename << endl;
     }
 }
-
 
 bool loadMatrixFromFile(vector<vector<int>>& matrix, const string& filename) {
     ifstream file(filename);
@@ -486,13 +494,18 @@ void printMatrix(const vector<vector<int>>& matrix) {
 }
 
 // Función principal
-int main() {
-    int n = 2;  // Tamaño de la matriz
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        std::cerr << "Error: no se proporcionó el tamaño de la matriz." << std::endl;
+        return 1;
+    }
+
+    int n = std::atoi(argv[1]); // Convierte el argumento a entero
     int blockSize = n/2;  // Tamaño de bloque para los algoritmos de bloques
     vector<vector<int>> A(n, vector<int>(n));
     vector<vector<int>> B(n, vector<int>(n));
     vector<vector<int>> C(n, vector<int>(n, 0));
-    initializeLogFile();
+    initializeLogFile(n);
     // Llenar matrices con valores aleatorios de 6 dígitos
     /*fillMatrix(A, n);
     fillMatrix(B, n);
@@ -502,9 +515,11 @@ int main() {
     saveMatrixToFile(B, "matriz_B2.txt");*/
 
     // Construir los nombres de archivo basados en el tamaño de la matriz
-    string filenameA = "matriz_A" + to_string(n) + ".txt";
-    string filenameB = "matriz_B" + to_string(n) + ".txt";
+    // Especificar las rutas relativas de las carpetas
+    string filenameA = "matrices/matricesA/matriz_A" + to_string(n) + ".txt";
+    string filenameB = "matrices/matricesB/matriz_B" + to_string(n) + ".txt";
     
+    // Cargar las matrices desde los archivos
     if (!loadMatrixFromFile(A, filenameA) || !loadMatrixFromFile(B, filenameB)) {
         cerr << "Error al cargar las matrices." << endl;
         return 1;

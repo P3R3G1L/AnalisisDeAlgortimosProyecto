@@ -1,6 +1,8 @@
 import numpy as np
 import time
 import concurrent.futures
+import os
+import sys
 
 
 # Generación de matrices de tamaño grande con valores aleatorios de 6 dígitos
@@ -9,8 +11,16 @@ import concurrent.futures
 
 # Cargar matriz desde archivo en función del tamaño
 def load_matrix_from_file(prefix, size):
-    filename = f"matriz_{prefix}{size}.txt"
-    return np.loadtxt(filename, dtype=np.int64)
+    # Ajustar la ruta según la subcarpeta correspondiente
+    subfolder = "matrices/matricesA" if prefix == 'A' else "matrices/matricesB"
+    filename = f"{subfolder}/matriz_{prefix}{size}.txt"
+    try:
+        matrix = np.loadtxt(filename, dtype=np.int64)
+        print(f"Matriz cargada desde {filename}")
+        return matrix
+    except Exception as e:
+        print(f"Error al cargar la matriz desde {filename}: {e}")
+        return None
 
 
 # 1. NaivLoopUnrollingTwo
@@ -221,12 +231,21 @@ def measure_time(func, A, B, block_size=None):
     return (end - start)  * 1000000000  # Tiempo en nanosegundos
 
 # Función para agregar tiempos de ejecución en un archivo .txt
-def save_and_display_results(filename, results, matrix_size):
+def save_and_display_results(results, matrix_size):
+    # Ruta del archivo basada en el tamaño de la matriz
+    folder = "tiemposDeEjecucion/tiemposDeEjecucionPython"
+    filename = f"{folder}/tiempos_ejecucion_Python_{matrix_size}.txt"
+    
+    # Asegurarse de que la carpeta exista
+    os.makedirs(folder, exist_ok=True)
+    
+    # Guardar los resultados en el archivo y mostrarlos
     with open(filename, 'w') as f:
         for name, time_ns in results:
             line = f"Tiempo de ejecucion ({name}) con tamano {matrix_size}x{matrix_size}: {time_ns:.0f} ns\n"
             f.write(line)
             print(line.strip())
+    print(f"Resultados guardados en {filename}")
 
 # Función para imprimir una matriz
 def print_matrix(matrix):
@@ -235,12 +254,15 @@ def print_matrix(matrix):
     print()
 
 # Prueba de los algoritmos con matrices
-matrix_size = 2; # Tamaño de la matriz
+matrix_size = int(sys.argv[1]); # Tamaño de la matriz
 block_size = matrix_size//2 # Tamaño de bloque para los algoritmos de bloque
 # Cargar matrices A y B desde archivos según el tamaño especificado
 A = load_matrix_from_file('A', matrix_size)
 B = load_matrix_from_file('B', matrix_size)
 
+# Verificar que las matrices se cargaron correctamente
+if A is None or B is None:
+    print("Error al cargar una o ambas matrices.")
 # Medición de tiempos
 results = [
     ("NaivLoopUnrollingTwo", measure_time(naiv_loop_unrolling_two, A, B)),
@@ -256,4 +278,4 @@ results = [
 ]
 
 # Guardar los resultados en un archivo .txt con el tamaño de la matriz
-save_and_display_results("tiempos_ejecucion_Python.txt", results, matrix_size)
+save_and_display_results(results, matrix_size)
