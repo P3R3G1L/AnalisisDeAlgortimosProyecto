@@ -1,10 +1,10 @@
-Tiempo de ejecucion (NaivLoopUnrollingTwo) con tamano 32x32: 35329000 ns
-Tiempo de ejecucion (NaivLoopUnrollingFour) con tamano 32x32: 32819300 ns
-Tiempo de ejecucion (WinogradOriginal) con tamano 32x32: 39190100 ns
-Tiempo de ejecucion (Winograd Scaled) con tamano 32x32: 30231900 ns
-Tiempo de ejecucion (StrassenNaiv) con tamano 32x32: 102171800 ns
-Tiempo de ejecucion (Strassen-Winograd) con tamano 32x32: 108121200 ns
-Tiempo de ejecucion (III.3 Sequential Block) con tamano 32x32: 27779300 ns
-Tiempo de ejecucion (IV.3 Sequential Block) con tamano 32x32: 39559400 ns
-Tiempo de ejecucion (III.5 Enhanced Parallel Block) con tamano 32x32: 40776300 ns
-Tiempo de ejecucion (IV.5 Enhanced Parallel Block) con tamano 32x32: 45453500 ns
+Tiempo de ejecucion (NaivLoopUnrollingTwo) con tamano 32x32: 26698800 ns
+Tiempo de ejecucion (NaivLoopUnrollingFour) con tamano 32x32: 27046500 ns
+Tiempo de ejecucion (WinogradOriginal) con tamano 32x32: 35891500 ns
+Tiempo de ejecucion (Winograd Scaled) con tamano 32x32: 23834300 ns
+Tiempo de ejecucion (StrassenNaiv) con tamano 32x32: 93147600 ns
+Tiempo de ejecucion (Strassen-Winograd) con tamano 32x32: 89898900 ns
+Tiempo de ejecucion (III.3 Sequential Block) con tamano 32x32: 24058700 ns
+Tiempo de ejecucion (IV.3 Sequential Block) con tamano 32x32: 35622100 ns
+Tiempo de ejecucion (III.5 Enhanced Parallel Block) con tamano 32x32: 38067200 ns
+Tiempo de ejecucion (IV.5 Enhanced Parallel Block) con tamano 32x32: 41571000 ns

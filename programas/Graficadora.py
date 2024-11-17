@@ -29,23 +29,26 @@ def read_execution_times(filename):
     return algorithms, times, matrix_size
 
 # Función para determinar la unidad de tiempo y el escalado en función del valor máximo
-def determine_time_unit(max_time):
-    if max_time >= 1e9:
+def determine_global_time_unit(times_python, times_cpp):
+    # Calcula el tiempo máximo global
+    global_max_time = max(max(times_python, default=1), max(times_cpp, default=1))
+    
+    # Determina la unidad de tiempo y el factor de escala basado en el tiempo máximo
+    if global_max_time >= 1e9:
         return "s", 1e9
-    elif max_time >= 1e6:
+    elif global_max_time >= 1e6:
         return "ms", 1e6
-    elif max_time >= 1e3:
+    elif global_max_time >= 1e3:
         return "μs", 1e3
     else:
         return "ns", 1
 
 # Función para graficar los tiempos de ejecución con la unidad adecuada
-def plot_execution_times(ax, filename, title):
+def plot_execution_times(ax, filename, title, time_unit, scale_factor):
     algorithms, times, matrix_size = read_execution_times(filename)
     title_with_size = f"{title} - Tamaño de matriz: {matrix_size}x{matrix_size}" if matrix_size else title
 
-    max_time = max(times) if times else 1
-    time_unit, scale_factor = determine_time_unit(max_time)
+    # Escala los tiempos utilizando el factor global
     scaled_times = [time / scale_factor for time in times] if times else []
 
     ax.clear()  # Limpia la gráfica antes de dibujarla nuevamente
@@ -57,17 +60,25 @@ def plot_execution_times(ax, filename, title):
     ax.tick_params(axis='x', labelsize=8)
     ax.tick_params(axis='y', labelsize=8)
 
-# Función para actualizar la gráfica cuando se selecciona un tamaño de matriz
+# Función para actualizar las gráficas cuando se selecciona un tamaño de matriz
 def update_plot(size, ax_python, ax_cpp):
     selected_size = int(size)  # Convierte el tamaño seleccionado a entero
     filename_python = f"tiemposDeEjecucion/tiemposDeEjecucionPython/tiempos_ejecucion_Python_{selected_size}.txt"
     filename_c = f"tiemposDeEjecucion/tiemposDeEjecucionC++/tiempos_ejecucion_C_{selected_size}.txt"
 
-    # Actualiza ambas gráficas con el tamaño seleccionado
-    plot_execution_times(ax_python, filename_python, "Tiempos de ejecución Python")
-    plot_execution_times(ax_cpp, filename_c, "Tiempos de ejecución C++")
-    
+    # Leer datos de ambos archivos
+    _, times_python, _ = read_execution_times(filename_python)
+    _, times_cpp, _ = read_execution_times(filename_c)
+
+    # Determinar la unidad de tiempo y el factor de escala globales
+    time_unit, scale_factor = determine_global_time_unit(times_python, times_cpp)
+
+    # Actualizar ambas gráficas utilizando la escala global
+    plot_execution_times(ax_python, filename_python, "Tiempos de ejecución Python", time_unit, scale_factor)
+    plot_execution_times(ax_cpp, filename_c, "Tiempos de ejecución C++", time_unit, scale_factor)
+
     plt.draw()  # Redibuja la figura
+
 
 # Función para ejecutar los programas externos
 def execute_programs(size):
