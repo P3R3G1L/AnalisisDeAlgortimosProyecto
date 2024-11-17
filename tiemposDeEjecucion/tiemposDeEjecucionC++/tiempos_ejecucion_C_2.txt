@@ -1,0 +1,10 @@
+Tiempo de ejecucion (NaivLoopUnrollingTwo) con tamano 2x2: 1000 ns
+Tiempo de ejecucion (NaivLoopUnrollingFour) con tamano 2x2: 800 ns
+Tiempo de ejecucion (WinogradOriginal) con tamano 2x2: 17300 ns
+Tiempo de ejecucion (Winograd Scaled) con tamano 2x2: 3500 ns
+Tiempo de ejecucion (StrassenNaiv) con tamano 2x2: 34700 ns
+Tiempo de ejecucion (Strassen-Winograd) con tamano 2x2: 11800 ns
+Tiempo de ejecucion (III.3 Sequential Block) con tamano 2x2: 1400 ns
+Tiempo de ejecucion (IV.3 Sequential Block) con tamano 2x2: 1600 ns
+Tiempo de ejecucion (III.5 Enhanced Parallel Block) con tamano 2x2: 891000 ns
+Tiempo de ejecucion (IV.5 Enhanced Parallel Block) con tamano 2x2: 531700 ns
